@@ -13,8 +13,8 @@ public class QuestionModel {
         this.title = title;
     }
 
-    public int getNum_of_answers() {
-        return num_of_answers;
+    public String getNum_of_answers() {
+        return Integer.toString(num_of_answers);
     }
 
     public void setNum_of_answers(int num_of_answers) {
