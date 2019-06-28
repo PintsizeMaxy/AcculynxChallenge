@@ -23,7 +23,7 @@ public class QuestionModel {
     }
 
     public String getNum_of_answers() {
-        return Integer.toString(num_of_answers);
+        return "Answers: " + num_of_answers;
     }
 
     public void setNum_of_answers(int num_of_answers) {
