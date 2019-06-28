@@ -21,6 +21,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class QuestionActivity extends AppCompatActivity {
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
