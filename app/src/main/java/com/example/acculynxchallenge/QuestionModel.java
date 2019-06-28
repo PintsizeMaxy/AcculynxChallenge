@@ -4,15 +4,6 @@ public class QuestionModel {
     private String title;
     private int num_of_answers;
     private int question_id;
-    private Boolean answered;
-
-    public Boolean getAnswered() {
-        return answered;
-    }
-
-    public void setAnswered(Boolean answered) {
-        this.answered = answered;
-    }
 
     public String getTitle() {
         return title;
