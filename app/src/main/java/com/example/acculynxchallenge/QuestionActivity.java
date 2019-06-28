@@ -1,6 +1,7 @@
 package com.example.acculynxchallenge;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
+    private QuestionsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,10 @@ public class QuestionActivity extends AppCompatActivity {
                     modelArrayList.add(model);
                 }
             }
+            mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
+            mAdapter = new QuestionsAdapter(QuestionActivity.this, modelArrayList);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -24,15 +24,16 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.mData = mData;
     }
 
-    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = inflater.inflate(R.layout.questions_adapter, viewGroup, false);
+        QuestionsHolder holder = new QuestionsHolder(view);
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final QuestionsHolder qHolder = (QuestionsHolder) holder;
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        final QuestionsHolder qHolder = (QuestionsHolder) viewHolder;
         mCurrent = mData.get(position);
         qHolder.questions.setText(mCurrent.getTitle());
         qHolder.num_of_answers.setText(mCurrent.getNum_of_answers());
