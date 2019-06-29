@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
@@ -23,6 +24,7 @@ public class AnswersActivity extends AppCompatActivity {
 
     ArrayList<AnswerModel> mList = new ArrayList<>();
     private RecyclerView mRecyclerView;
+    private AnswersAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,9 @@ public class AnswersActivity extends AppCompatActivity {
             }
 
             mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
+            mAdapter = new AnswersAdapter(AnswersActivity.this, mList);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(AnswersActivity.this));
 
         }catch(JSONException e){
             e.printStackTrace();
