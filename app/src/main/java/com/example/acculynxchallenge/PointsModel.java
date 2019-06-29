@@ -9,5 +9,5 @@ public class PointsModel extends Activity {
     protected static int points;
     protected static int deductions;
     protected static int tries;
-    protected static ArrayList<String> mAnswered = new ArrayList<>();
+    protected static ArrayList<Integer> mAnswered = new ArrayList<>();
 }

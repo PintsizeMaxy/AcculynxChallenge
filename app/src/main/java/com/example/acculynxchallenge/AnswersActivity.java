@@ -113,35 +113,38 @@ public class AnswersActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         AnswerModel clicked_answer = mList.get(position);
-        String ans_id = mList.get(position).getAnswer_id();
+        int ans_id = mList.get(position).getAnswer_id();
+        int question_id = mList.get(position).getQuestion_id();
+        int clicked_score = clicked_answer.getScore();
 
-        if (clicked_answer.getIs_accepted()
-                && checkList(ans_id)) {
-            tries++;
-            points += clicked_answer.getScore();
-            points -= deductions;
-            alertCreate(true);
-            mAnswered.add(ans_id);
-            deductions = 0;
-        }
-        if (!clicked_answer.getIs_accepted()) {
-            if (checkList(ans_id)) {
-                mAnswered.add(ans_id);
+        if (checkList(question_id)) {
+            if (clicked_answer.getIs_accepted()) {
                 tries++;
-                deductions += clicked_answer.getScore();
-                alertCreate(false);
-            } else {
-                Toast.makeText(AnswersActivity.this,
-                        "You have selected this answer already",
-                        Toast.LENGTH_SHORT).show();
+                points += clicked_score;
+                alertCreate(true);
+                mAnswered.add(question_id);
+                deductions = 0;
+            }
+            if (!clicked_answer.getIs_accepted()) {
+                if (checkList(ans_id)) {
+                    mAnswered.add(ans_id);
+                    tries++;
+                    deductions += clicked_score;
+                    points -= deductions;
+                    alertCreate(false);
+                } else {
+                    Toast.makeText(AnswersActivity.this,
+                            "You have selected this answer already",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
-    public boolean checkList(String pID){
-        if(!mAnswered.contains(pID)){
+    public boolean checkList(int pID) {
+        if (!mAnswered.contains(pID)) {
             return true;
-        } else{
+        } else {
             return false;
         }
     }

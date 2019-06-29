@@ -45,7 +45,8 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final AnswerHolder holder = (AnswerHolder) viewHolder;
         mModel = mData.get(position);
-        holder.answer_id.setText(mModel.getAnswer_id());
+        String text = "Answer ID: " + mModel.getAnswer_id();
+        holder.answer_id.setText(text);
     }
 
     @Override
