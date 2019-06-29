@@ -33,7 +33,7 @@ public class AnswersActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycler);
+        setContentView(R.layout.question_recycler);
 
         Intent intent = getIntent();
         int question_id = intent.getIntExtra(EXTRA_ID, 0);
