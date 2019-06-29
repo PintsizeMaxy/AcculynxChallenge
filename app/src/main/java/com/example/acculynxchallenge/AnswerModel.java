@@ -3,12 +3,20 @@ package com.example.acculynxchallenge;
 public class AnswerModel {
 
     private int answer_id;
+    private int question_id;
     private Boolean is_accepted;
-    private Boolean answered = false;
     private int score;
 
     public String getAnswer_id() {
         return "Answer ID: " + answer_id;
+    }
+
+    public int getQuestion_id() {
+        return question_id;
+    }
+
+    public void setQuestion_id(int question_id) {
+        this.question_id = question_id;
     }
 
     public void setAnswer_id(int answer_id) {
@@ -25,14 +33,6 @@ public class AnswerModel {
 
     public int getScore() {
         return score;
-    }
-
-    public void setAnswered(Boolean answered){
-        this.answered = answered;
-    }
-
-    public Boolean getAnswered() {
-        return answered;
     }
 
     public void setScore(int score) {
