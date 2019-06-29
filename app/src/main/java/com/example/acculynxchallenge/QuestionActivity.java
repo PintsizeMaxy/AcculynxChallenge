@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,13 +33,6 @@ public class QuestionActivity extends AppCompatActivity
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mAdapter;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,4 +109,5 @@ public class QuestionActivity extends AppCompatActivity
         question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
         startActivity(question_detail);
     }
+    
 }
