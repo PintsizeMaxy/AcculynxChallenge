@@ -2,7 +2,9 @@ package com.example.acculynxchallenge;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +25,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = mInflater.inflate(R.layout.answer_adapter, parent, false);
+        AnswerHolder holder = new AnswerHolder(view);
+        return holder;
     }
 
     @Override
@@ -34,5 +38,15 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return 0;
+    }
+
+    class AnswerHolder extends RecyclerView.ViewHolder {
+        TextView answer_id;
+
+        public AnswerHolder(View view){
+            super(view);
+            answer_id = (TextView) view.findViewById(R.id.answerDisplay);
+
+        }
     }
 }
