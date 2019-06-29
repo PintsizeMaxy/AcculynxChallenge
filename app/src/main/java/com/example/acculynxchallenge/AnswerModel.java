@@ -6,8 +6,8 @@ public class AnswerModel {
     private Boolean is_accepted;
     private int score;
 
-    public int getAnswer_id() {
-        return answer_id;
+    public String getAnswer_id() {
+        return "Answer ID: " + answer_id;
     }
 
     public void setAnswer_id(int answer_id) {

@@ -16,6 +16,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private LayoutInflater mInflater;
     ArrayList<AnswerModel> mData = new ArrayList<>();
+    AnswerModel mModel;
 
     public AnswersAdapter(Context context, ArrayList mData){
         this.context = context;
@@ -31,13 +32,15 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        final AnswerHolder holder = (AnswerHolder) viewHolder;
+        mModel = mData.get(position);
+        holder.answer_id.setText(mModel.getAnswer_id());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mData.size();
     }
 
     class AnswerHolder extends RecyclerView.ViewHolder {
