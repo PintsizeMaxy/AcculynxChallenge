@@ -12,4 +12,7 @@ public interface ApiInterface {
 
     @GET("/2.2/questions/{id}/answers?order=desc&sort=activity&site=stackoverflow")
     Call<String> getAllAnswers(@Path("id") int questionID);
+
+    @GET("/2.2/search?order=desc&sort=activity&intitle={id}&site=stackoverflow")
+    Call<String> getSearchResults(@Path("id") int searchQuery);
 }
