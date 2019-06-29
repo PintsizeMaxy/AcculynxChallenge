@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +31,13 @@ public class QuestionActivity extends AppCompatActivity
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mAdapter;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
