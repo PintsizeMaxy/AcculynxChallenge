@@ -89,6 +89,9 @@ public class AnswersActivity extends AppCompatActivity
                 model.setAnswer_id(jObj.getInt("answer_id"));
                 model.setIs_accepted(jObj.getBoolean("is_accepted"));
                 model.setScore(jObj.getInt("score"));
+                if(!model.getAnswered()) {
+                    model.setAnswered(false);
+                }
                 mList.add(model);
             }
 
@@ -106,8 +109,12 @@ public class AnswersActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         AnswerModel clicked_answer = mList.get(position);
-        if(clicked_answer.getIs_accepted()) {
-            Toast.makeText(AnswersActivity.this, "Correct", Toast.LENGTH_SHORT).show();
+        if(clicked_answer.getIs_accepted()
+                && !PointsModel.mAnswered.contains(mList.get(position).getAnswer_id())) {
+            PointsModel.points++;
+            mList.get(position).setAnswered(true);
+            PointsModel.mAnswered.add(mList.get(position).getAnswer_id());
+            Toast.makeText(AnswersActivity.this, Integer.toString(PointsModel.points), Toast.LENGTH_SHORT).show();
         }
     }
 }

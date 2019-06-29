@@ -109,5 +109,5 @@ public class QuestionActivity extends AppCompatActivity
         question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
         startActivity(question_detail);
     }
-    
+
 }
