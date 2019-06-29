@@ -18,6 +18,16 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<AnswerModel> mData = new ArrayList<>();
     AnswerModel mModel;
 
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     public AnswersAdapter(Context context, ArrayList mData){
         this.context = context;
         mInflater = LayoutInflater.from(context);
@@ -49,7 +59,17 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public AnswerHolder(View view){
             super(view);
             answer_id = (TextView) view.findViewById(R.id.answerDisplay);
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

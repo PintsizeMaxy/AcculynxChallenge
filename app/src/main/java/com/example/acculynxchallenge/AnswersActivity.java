@@ -3,6 +3,7 @@ package com.example.acculynxchallenge;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +23,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_ID;
 
-public class AnswersActivity extends AppCompatActivity {
+public class AnswersActivity extends AppCompatActivity
+        implements AnswersAdapter.OnItemClickListener{
 
     ArrayList<AnswerModel> mList = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -87,10 +89,19 @@ public class AnswersActivity extends AppCompatActivity {
             mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
             mAdapter = new AnswersAdapter(AnswersActivity.this, mList);
             mRecyclerView.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(AnswersActivity.this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(AnswersActivity.this));
 
         }catch(JSONException e){
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        AnswerModel clicked_answer = mList.get(position);
+        if(clicked_answer.getIs_accepted()) {
+            Toast.makeText(AnswersActivity.this, "Correct", Toast.LENGTH_SHORT).show();
         }
     }
 }
