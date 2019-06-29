@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,7 +20,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity
+        implements QuestionsAdapter.OnItemClickListener{
+
+    public static final String EXTRA_QUESTION = "question";
+    public static final String EXTRA_ID = "questionID";
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -84,9 +89,20 @@ public class QuestionActivity extends AppCompatActivity {
             mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
             mAdapter = new QuestionsAdapter(QuestionActivity.this, modelArrayList);
             mRecyclerView.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(QuestionActivity.this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onItemClick(int position){
+        Intent question_detail = new Intent(this, AnswersActivity.class);
+        QuestionModel clicked_item = modelArrayList.get(position);
+
+        question_detail.putExtra(EXTRA_QUESTION, clicked_item.getTitle());
+        question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
+        startActivity(question_detail);
     }
 }
