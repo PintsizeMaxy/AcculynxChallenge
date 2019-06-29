@@ -34,14 +34,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000" />
 
-            <TextView
-                android:id="@+id/pointDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/answerDisplay"
-                android:visibility="invisible"
-                android:textColor="#000" />
-
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
