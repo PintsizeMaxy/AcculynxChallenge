@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter used to display all JSON information onto the screen
+ */
 public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
     private LayoutInflater mInflater;
     ArrayList<AnswerModel> mData = new ArrayList<>();
     AnswerModel mModel;
@@ -29,7 +31,6 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public AnswersAdapter(Context context, ArrayList mData){
-        this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mData = mData;
     }
