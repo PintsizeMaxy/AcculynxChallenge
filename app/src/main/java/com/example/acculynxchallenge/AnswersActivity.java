@@ -3,6 +3,7 @@ package com.example.acculynxchallenge;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_ID;
+import static com.example.acculynxchallenge.QuestionActivity.EXTRA_QUESTION;
 
 public class AnswersActivity extends AppCompatActivity
         implements AnswersAdapter.OnItemClickListener{
@@ -29,14 +31,18 @@ public class AnswersActivity extends AppCompatActivity
     ArrayList<AnswerModel> mList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private AnswersAdapter mAdapter;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.question_recycler);
+        setContentView(R.layout.answers_recycler);
 
         Intent intent = getIntent();
+        String question = intent.getStringExtra(EXTRA_QUESTION);
         int question_id = intent.getIntExtra(EXTRA_ID, 0);
+        mTitle = (TextView) findViewById(R.id.questionTitle);
+        mTitle.setText(question);
         getRetrofit(question_id);
 
     }
@@ -86,7 +92,7 @@ public class AnswersActivity extends AppCompatActivity
                 mList.add(model);
             }
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
+            mRecyclerView = (RecyclerView) findViewById(R.id.answerList);
             mAdapter = new AnswersAdapter(AnswersActivity.this, mList);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(AnswersActivity.this);
