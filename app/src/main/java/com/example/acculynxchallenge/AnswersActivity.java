@@ -20,6 +20,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static com.example.acculynxchallenge.QuestionActivity.EXTRA_ID;
+
 public class AnswersActivity extends AppCompatActivity {
 
     ArrayList<AnswerModel> mList = new ArrayList<>();
@@ -32,6 +34,8 @@ public class AnswersActivity extends AppCompatActivity {
         setContentView(R.layout.recycler);
 
         Intent intent = getIntent();
+        int question_id = intent.getIntExtra(EXTRA_ID, 0);
+        getRetrofit(question_id);
 
     }
 
