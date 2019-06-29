@@ -25,6 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.example.acculynxchallenge.PointsModel.deductions;
+import static com.example.acculynxchallenge.PointsModel.earned;
 import static com.example.acculynxchallenge.PointsModel.mAnswered;
 import static com.example.acculynxchallenge.PointsModel.points;
 import static com.example.acculynxchallenge.PointsModel.tries;
@@ -120,25 +121,32 @@ public class AnswersActivity extends AppCompatActivity
         if (checkList(question_id)) {
             if (clicked_answer.getIs_accepted()) {
                 tries++;
-                points += clicked_score;
+                earned += clicked_score;
                 alertCreate(true);
                 mAnswered.add(question_id);
                 deductions = 0;
+                tries = 0;
             }
             if (!clicked_answer.getIs_accepted()) {
                 if (checkList(ans_id)) {
                     mAnswered.add(ans_id);
                     tries++;
                     deductions += clicked_score;
-                    points -= deductions;
+                    earned -= deductions;
                     alertCreate(false);
                 } else {
-                    Toast.makeText(AnswersActivity.this,
-                            "You have selected this answer already",
-                            Toast.LENGTH_SHORT).show();
+                    makeToast("You have selected this answer already");
                 }
             }
+        } else {
+            makeToast("You have answered this question already! ");
         }
+    }
+
+    public void makeToast(String message) {
+        Toast.makeText(AnswersActivity.this,
+                message,
+                Toast.LENGTH_SHORT).show();
     }
 
     public boolean checkList(int pID) {
@@ -153,13 +161,15 @@ public class AnswersActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(AnswersActivity.this);
         builder.setCancelable(true);
         if (correct) {
+            points += earned;
             builder.setTitle("Correct!");
             builder.setMessage("It took you " + tries
-                    + " attempt(s)!\nYou received: " + points + " points");
+                    + " attempt(s)!\nYou received: " + earned + " points\nNew score: " +
+                    points);
             alertExit(builder);
         } else {
             builder.setTitle("Incorrect!");
-            builder.setMessage(deductions + " points deducted from  points");
+            builder.setMessage(deductions + " points deducted from  points\n");
             alertExit(builder);
         }
     }
