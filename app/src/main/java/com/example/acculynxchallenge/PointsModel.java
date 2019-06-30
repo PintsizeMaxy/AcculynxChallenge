@@ -14,7 +14,6 @@ public class PointsModel extends Activity {
     protected static int deductions; // Points subtracted from earned from wrong guesses
     protected static int tries; // Amount of clicks it took to click the right answer
     protected static int earned; // Earned points from successfully answering
-    protected static int total_answers;
     // Holds id's of questions already clicked
     protected static ArrayList<Integer> mAnswered = new ArrayList<>();
 }

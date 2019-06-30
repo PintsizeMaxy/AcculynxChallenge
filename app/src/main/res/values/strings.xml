@@ -5,11 +5,8 @@
     <string name="select_correct">It took you %1$d attempt(s)!
     \nYou received: %2$d points\nNew Score: %3$d</string>
     <string name="select_wrong"> %1$d points deducted from score</string>
-    <string name="select_uhoh">Looks like question has an accepted answer, but none are "accepted"
-    \n%1$d points given back.\nScore: %2$d</string>
     <string name="incorrect">Incorrect</string>
     <string name="correct">Correct!</string>
-    <string name="uhoh">Uh Oh!</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="fail">onFailure</string>

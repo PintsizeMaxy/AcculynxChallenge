@@ -94,7 +94,7 @@ public class QuestionActivity extends AppCompatActivity
             for (int i = 0; i < jsonArray.length(); i++) {
                 QuestionModel model = new QuestionModel();
                 JSONObject jObj = jsonArray.getJSONObject(i);
-                if (jObj.optBoolean("is_answered")
+                if (jObj.has("accepted_answer_id")
                         && jObj.optInt("answer_count") > 1) {
                     model.setNum_of_answers(jObj.getInt("answer_count"));
                     model.setTitle(jObj.getString("title"));

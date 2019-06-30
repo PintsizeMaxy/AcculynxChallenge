@@ -28,7 +28,6 @@ import static com.example.acculynxchallenge.PointsModel.deductions;
 import static com.example.acculynxchallenge.PointsModel.earned;
 import static com.example.acculynxchallenge.PointsModel.mAnswered;
 import static com.example.acculynxchallenge.PointsModel.points;
-import static com.example.acculynxchallenge.PointsModel.total_answers;
 import static com.example.acculynxchallenge.PointsModel.tries;
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_ID;
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_QUESTION;
@@ -122,7 +121,6 @@ public class AnswersActivity extends AppCompatActivity
                 model.setIs_accepted(jObj.getBoolean("is_accepted"));
                 model.setScore(jObj.getInt("score"));
                 model.setQuestion_id(jObj.getInt("question_id"));
-                total_answers++;
                 mList.add(model);
             }
 
@@ -161,38 +159,33 @@ public class AnswersActivity extends AppCompatActivity
                 endAnswering(question_id, getString(R.string.correct));
             } // end if
             // Else runs if answer is not accepted
-            else {
-                if (tries == total_answers) {
-                    earned += deductions; // Re-apply points initially subtracted from score
-                    endAnswering(question_id, getString(R.string.uhoh)); // Feeds uh-oh parameters
-                } else if (checkList(ans_id)) {
-                    // Adds answer to answered to prevent duplicate clicks
-                    mAnswered.add(ans_id); // Add answer to list of answered to prevent multi-click
-                    deductions += clicked_score; // Increases total amount of points lost
-                    earned -= clicked_score; // Subtract score from total amount of points
-                    // Feeds false into alertCreate to create appropriate AlertDialog
-                    alertCreate(getString(R.string.incorrect));
-                } else {
-                    makeToast(getString(R.string.select_ans));
-                }
+            else if (checkList(ans_id)) {
+                // Adds answer to answered to prevent duplicate clicks
+                mAnswered.add(ans_id); // Add answer to list of answered to prevent multi-click
+                deductions += clicked_score; // Increases total amount of points lost
+                earned -= clicked_score; // Subtract score from total amount of points
+                // Feeds false into alertCreate to create appropriate AlertDialog
+                alertCreate(getString(R.string.incorrect));
+            } else {
+                makeToast(getString(R.string.select_ans));
             }
         } else {
             makeToast(getString(R.string.select_quest));
         }
     }
 
+
     /**
      * Called if correct answer, or and uh oh is encountered
+     *
      * @param question_id question to be added to the list of answered questions
-     * @param result determines if correct or uh oh
+     * @param result      determines if correct or uh oh
      */
     public void endAnswering(int question_id, String result) {
         alertCreate(result); // Feeds true into alertCreate to create appropriate AlertDialog
         mAnswered.add(question_id); // Adds question to answered to prevent duplicate clicks
         deductions = 0; // Resets deductions back to start
         earned = 0; // Resets earned back to start
-        tries = 0; // Resets tries back to start
-        total_answers = 0; // Resets total_answers back to 0
     }
 
     /**
@@ -236,9 +229,6 @@ public class AnswersActivity extends AppCompatActivity
         } else if (correct.equals(getString(R.string.incorrect))) {
             alertExit(builder, getString(R.string.incorrect),
                     getString(R.string.select_wrong, deductions));
-        } else {
-            alertExit(builder, getString(R.string.uhoh),
-                    getString(R.string.select_uhoh, deductions, points));
         }
     }
 
