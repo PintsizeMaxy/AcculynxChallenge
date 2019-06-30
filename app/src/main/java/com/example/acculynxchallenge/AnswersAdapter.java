@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private LayoutInflater mInflater; // Loads in the layout used for AnswersActivity
-    ArrayList<AnswerModel> mData = new ArrayList<>(); // Holds the answers belonging to the question
+    ArrayList<AnswerModel> mData; // Holds the answers belonging to the question
     AnswerModel mModel; // Current model to parse through
 
     private OnItemClickListener mListener; // ClickListener for adapter and for activity to use

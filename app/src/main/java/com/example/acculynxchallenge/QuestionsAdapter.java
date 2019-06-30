@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private LayoutInflater inflater; // Loads in the layout used for QuestionsActivity
-    ArrayList<QuestionModel> mData = new ArrayList<>(); // Holds the answers belonging to the question
+    ArrayList<QuestionModel> mData; // Holds the answers belonging to the question
     QuestionModel mCurrent; // Current model to parse through
     private OnItemClickListener mListener; // ClickListener for adapter and for activity to use
 

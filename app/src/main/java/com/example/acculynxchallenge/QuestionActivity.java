@@ -7,10 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +29,6 @@ public class QuestionActivity extends AppCompatActivity
 
     public static final String EXTRA_QUESTION = "question";
     public static final String EXTRA_ID = "questionID";
-    public static final String EXTRA_ANSWERS = "num_of_answers";
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;
