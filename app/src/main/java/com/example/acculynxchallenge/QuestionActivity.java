@@ -24,6 +24,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+/**
+ * Activity to read JSON of all the answers and feed them into QuestionsAdapter to be read onto
+ * screen
+ */
 public class QuestionActivity extends AppCompatActivity
         implements QuestionsAdapter.OnItemClickListener{
 
@@ -35,6 +39,10 @@ public class QuestionActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mAdapter;
 
+    /**
+     * Called when loading up the AnswersActivity layout. Initializes extra intents
+     * @param savedInstanceState instance used to create the AnswersActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +50,11 @@ public class QuestionActivity extends AppCompatActivity
 
         getRetrofit();
     }
-
+    /**
+     * Creates Retrofit object to trace through StackExchange API JSON, calls method to read
+     * Calls method to read the parsed JSON and create model objects for each
+     *
+     */
     private void getRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiInterface.JSONURL)
@@ -75,6 +87,11 @@ public class QuestionActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Parses through JSON find the value that belongs to the tag
+     *
+     * @param response response received from using API
+     */
     private void readQuestions(String response) {
         try {
             JSONObject obj = new JSONObject(response);
@@ -101,6 +118,12 @@ public class QuestionActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Overrides from QuestionsAdapter, determines which question card is clicked and loads
+     * all answers that belong to the question
+     *
+     * @param position location of the card that is clicked
+     */
     @Override
     public void onItemClick(int position){
         Intent question_detail = new Intent(this, AnswersActivity.class);

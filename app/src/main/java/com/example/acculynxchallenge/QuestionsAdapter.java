@@ -11,28 +11,51 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter used to display all JSON information related to Questions onto the screen
+ */
 public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private Context context;
-    private LayoutInflater inflater;
-    ArrayList<QuestionModel> mData = new ArrayList<>();
-    QuestionModel mCurrent;
-    private OnItemClickListener mListener;
+    private LayoutInflater inflater; // Loads in the layout used for QuestionsActivity
+    ArrayList<QuestionModel> mData = new ArrayList<>(); // Holds the answers belonging to the question
+    QuestionModel mCurrent; // Current model to parse through
+    private OnItemClickListener mListener; // ClickListener for adapter and for activity to use
 
+    /**
+     * Interface used as a personal clickListener to be implemented QuestionsActivity
+     */
     public interface OnItemClickListener{
+        /**
+         * Determines what answer was selected
+         * @param position position of card selected
+         */
         void onItemClick(int position);
     }
 
+    /**
+     * Sets the onClickListener to provide responses for clicks in Activity
+     * @param listener Activity to be linked with listener
+     */
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
     }
 
+    /**
+     * Constructor to create the QuestionsAdapter view
+     * @param context activity to be displayed in
+     * @param mData ArrayList of answer details
+     */
     public QuestionsAdapter(Context context, ArrayList mData) {
-        this.context = context;
         inflater = LayoutInflater.from(context);
         this.mData = mData;
     }
 
+    /**
+     * Creates ViewHolder for the RecyclerView in AnswersActivity
+     * @param viewGroup layout to attach view holder to
+     * @param viewType determines if layout will be added or inflated
+     * @return made holder from custom AnswerHolder
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = inflater.inflate(R.layout.questions_adapter, viewGroup, false);
@@ -40,6 +63,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return holder;
     }
 
+    /**
+     * Overrides onBindViewHolder from RecyclerView to generate and show items
+     * @param viewHolder RecyclerView to display items in
+     * @param position position to grab the answer from in the ArrayList
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final QuestionsHolder qHolder = (QuestionsHolder) viewHolder;
@@ -48,15 +76,27 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         qHolder.num_of_answers.setText(mCurrent.getNum_of_answers());
     }
 
+    /**
+     * Gets size of ArrayList
+     * @return size of ArrayList
+     */
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
+    /**
+     * Custom ViewHolder to hold onClickListener for items in recycler view as well as display
+     * text in appropriate spot in the CardView
+     */
     class QuestionsHolder extends RecyclerView.ViewHolder {
-        TextView questions;
-        TextView num_of_answers;
+        TextView questions; // Question title to display
+        TextView num_of_answers; // Number of answers to display
 
+        /**
+         * Creates the cards and displays them
+         * @param view where to show the items
+         */
         public QuestionsHolder(View view) {
             super(view);
             questions = (TextView) view.findViewById(R.id.questionDisplay);
