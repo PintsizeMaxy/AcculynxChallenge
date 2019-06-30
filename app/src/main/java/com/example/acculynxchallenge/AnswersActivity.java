@@ -53,7 +53,7 @@ public class AnswersActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.answers_recycler);
+        setContentView(R.layout.answers_recycler); // Loads RecyclerView
 
         Intent intent = getIntent();
         String question = intent.getStringExtra(EXTRA_QUESTION); // Retrieves title of question
@@ -91,7 +91,7 @@ public class AnswersActivity extends AppCompatActivity
                     if (response.body() != null) {
                         Log.i("isSuccessful()", response.body());
                         String json_response = response.body();
-                        readAnswers(json_response);
+                        readAnswers(json_response); // Calls method to read in data, if successful
                     } else {
                         Log.i("isEmpty", "Got nothing back");
                     }
@@ -100,7 +100,7 @@ public class AnswersActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.i("oFailure", "Unable to get JSON data");
             }
         });
     }
@@ -127,8 +127,11 @@ public class AnswersActivity extends AppCompatActivity
             }
 
             mRecyclerView = (RecyclerView) findViewById(R.id.answerList);
+            // Create adapter to be used to RecyclerView and display data
             mAdapter = new AnswersAdapter(AnswersActivity.this, mList);
+            // Pairs the RecyclerView with the data to allow displaying
             mRecyclerView.setAdapter(mAdapter);
+            // Implement Click Listener from Adapter to respond to clicks on cards
             mAdapter.setOnItemClickListener(AnswersActivity.this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(AnswersActivity.this));
 
@@ -145,16 +148,16 @@ public class AnswersActivity extends AppCompatActivity
      */
     @Override
     public void onItemClick(int position) {
-        AnswerModel clicked_answer = mList.get(position);
-        int ans_id = mList.get(position).getAnswer_id();
-        int question_id = mList.get(position).getQuestion_id();
-        int clicked_score = clicked_answer.getScore();
+        AnswerModel clicked_answer = mList.get(position); // details of answer selected
+        int ans_id = clicked_answer.getAnswer_id(); // ID of answer selected
+        int question_id = clicked_answer.getQuestion_id(); // ID of question being answered
+        int clicked_score = clicked_answer.getScore(); // Score to add or subtract from points earned
 
         if (checkList(question_id)) {
             // If statement checks if answer click is the accepted answer
             if (clicked_answer.getIs_accepted()) {
-                tries++;
-                earned += clicked_score;
+                tries++; // Increase amount of clicks taken
+                earned += clicked_score; // Add the points of the accepted answer to your points
                 endAnswering(question_id, "correct");
             } // end if
             // Else runs if answer is not accepted
@@ -165,7 +168,7 @@ public class AnswersActivity extends AppCompatActivity
                 } else if (checkList(ans_id)) {
                     tries++;
                     // Adds answer to answered to prevent duplicate clicks
-                    mAnswered.add(ans_id);
+                    mAnswered.add(ans_id); // Add answer to list of answered to prevent multi-click
                     deductions += clicked_score; // Increases total amount of points lost
                     earned -= clicked_score; // Subtract score from total amount of points
                     // Feeds false into alertCreate to create appropriate AlertDialog
@@ -194,7 +197,7 @@ public class AnswersActivity extends AppCompatActivity
     }
 
     /**
-     * Pops up a toast if answer was select already or questions was already answered
+     * Pops up a toast if answer was selected already or question was already answered
      *
      * @param message info to display corresponding to the question/answer selected
      */
