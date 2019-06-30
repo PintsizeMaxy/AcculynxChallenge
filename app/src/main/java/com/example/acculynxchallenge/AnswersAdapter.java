@@ -73,7 +73,12 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final AnswerHolder holder = (AnswerHolder) viewHolder;
         mModel = mData.get(position);
         String text = "Answer ID: " + mModel.getAnswer_id();
+        String votes = "Answer Score: " + mModel.getScore();
         holder.answer_id.setText(text);
+        holder.answer_score.setText(votes);
+        if(PointsModel.mAnswered.contains(mModel.getQuestion_id())){
+         holder.answer_score.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -91,6 +96,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     class AnswerHolder extends RecyclerView.ViewHolder {
         TextView answer_id; // TextView to display the id of the answer
+        TextView answer_score;
 
         /**
          * Creates the cards and displays them
@@ -99,6 +105,7 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public AnswerHolder(View view){
             super(view);
             answer_id = (TextView) view.findViewById(R.id.answerDisplay);
+            answer_score = (TextView) view.findViewById(R.id.answerVotes);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -106,6 +113,9 @@ public class AnswersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
                             mListener.onItemClick(position);
+                            if(PointsModel.mAnswered.contains(mModel.getQuestion_id())){
+                                answer_score.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }

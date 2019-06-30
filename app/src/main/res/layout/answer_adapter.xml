@@ -34,6 +34,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000" />
 
+            <TextView
+                android:id="@+id/answerVotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/answerDisplay"
+                android:paddingStart="100dp"
+                android:paddingEnd="10dp"
+                android:textColor="#000"
+                android:visibility="invisible"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
