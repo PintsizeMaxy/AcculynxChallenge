@@ -63,21 +63,21 @@ public class QuestionActivity extends AppCompatActivity
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("onResponse", response.body());
+                Log.i(getString(R.string.respond), response.body());
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Log.i("isSuccessful()", response.body());
+                        Log.i(getString(R.string.succeed), response.body());
                         String json_response = response.body();
                         readQuestions(json_response);
                     } else {
-                        Log.i("isEmpty", "Got nothing back");
+                        Log.i(getString(R.string.empty), getString(R.string.no_return));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.i(getString(R.string.fail), getString(R.string.fail_data));
             }
         });
     }

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">AcculynxChallenge</string>
+    <string name="select_ans">You selected this answer already</string>
+    <string name="select_quest">You answered this question already!</string>
+    <string name="select_correct">It took you %1$d attempt(s)!
+    \nYou received: %2$d points\nNew Score: %3$d</string>
+    <string name="select_wrong"> %1$d points deducted from score</string>
+    <string name="select_uhoh">Looks like question has an accepted answer, but none are "accepted"
+    \n%1$d points given back.\nScore: %2$d</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="correct">Correct!</string>
+    <string name="uhoh">Uh Oh!</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="fail">onFailure</string>
+    <string name="fail_data">Unable to get JSON data</string>
+    <string name="empty">isEmpty</string>
+    <string name="no_return">Got nothing back</string>
+    <string name="respond">onResponse</string>
+    <string name="succeed">isSuccessful()</string>
 </resources>

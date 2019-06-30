@@ -86,21 +86,21 @@ public class AnswersActivity extends AppCompatActivity
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("onResponse", response.body());
+                Log.i(getString(R.string.respond), response.body());
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Log.i("isSuccessful()", response.body());
+                        Log.i(getString(R.string.succeed), response.body());
                         String json_response = response.body();
                         readAnswers(json_response); // Calls method to read in data, if successful
                     } else {
-                        Log.i("isEmpty", "Got nothing back");
+                        Log.i(getString(R.string.empty), getString(R.string.no_return));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.i("oFailure", "Unable to get JSON data");
+                Log.i(getString(R.string.fail), getString(R.string.fail_data));
             }
         });
     }
@@ -154,31 +154,30 @@ public class AnswersActivity extends AppCompatActivity
         int clicked_score = clicked_answer.getScore(); // Score to add or subtract from points earned
 
         if (checkList(question_id)) {
+            tries++;
             // If statement checks if answer click is the accepted answer
             if (clicked_answer.getIs_accepted()) {
-                tries++; // Increase amount of clicks taken
                 earned += clicked_score; // Add the points of the accepted answer to your points
-                endAnswering(question_id, "correct");
+                endAnswering(question_id, getString(R.string.correct));
             } // end if
             // Else runs if answer is not accepted
             else {
                 if (tries == total_answers) {
                     earned += deductions; // Re-apply points initially subtracted from score
-                    endAnswering(question_id, "uh oh"); // Feeds uh-oh parameters
+                    endAnswering(question_id, getString(R.string.uhoh)); // Feeds uh-oh parameters
                 } else if (checkList(ans_id)) {
-                    tries++;
                     // Adds answer to answered to prevent duplicate clicks
                     mAnswered.add(ans_id); // Add answer to list of answered to prevent multi-click
                     deductions += clicked_score; // Increases total amount of points lost
                     earned -= clicked_score; // Subtract score from total amount of points
                     // Feeds false into alertCreate to create appropriate AlertDialog
-                    alertCreate("incorrect");
+                    alertCreate(getString(R.string.incorrect));
                 } else {
-                    makeToast("You selected this answer already");
+                    makeToast(getString(R.string.select_ans));
                 }
             }
         } else {
-            makeToast("You answered this question already!");
+            makeToast(getString(R.string.select_quest));
         }
     }
 
@@ -230,19 +229,16 @@ public class AnswersActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(AnswersActivity.this);
         builder.setCancelable(true);
         // If statement checks if the correct answer was found
-        if (correct.equals("correct")) {
+        if (correct.equals(getString(R.string.correct))) {
             points += earned; // Add earned points to user's point stockpile
-            alertExit(builder, "Correct!", "It took you " + tries
-                    + " attempt(s)!\nYou received: " + earned + " points\nNew score: " +
-                    points); //
-        } else if (correct.equals("incorrect")) {
-            alertExit(builder, "Incorrect",
-                    deductions + " points deducted from score");
+            alertExit(builder, getString(R.string.correct), getString(R.string.select_correct,
+                    tries, earned, points)); //
+        } else if (correct.equals(getString(R.string.incorrect))) {
+            alertExit(builder, getString(R.string.incorrect),
+                    getString(R.string.select_wrong, deductions));
         } else {
-            alertExit(builder, "Uh Oh!",
-                    "Looks like the question has an accepted answer, " +
-                            "but none of them are the right answer!\n" + deductions +
-                            " points given back. \n Score: " + points);
+            alertExit(builder, getString(R.string.uhoh),
+                    getString(R.string.select_uhoh, deductions, points));
         }
     }
 
@@ -254,13 +250,13 @@ public class AnswersActivity extends AppCompatActivity
     public void alertExit(AlertDialog.Builder aBuilder, String pTitle, String pMessage) {
         aBuilder.setTitle(pTitle); // Title of AlertDialog
         aBuilder.setMessage(pMessage); // Message displayed below title of AlertDialog
-        aBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        aBuilder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
             }
         });
-        aBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        aBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
