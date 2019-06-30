@@ -29,6 +29,7 @@ public class QuestionActivity extends AppCompatActivity
 
     public static final String EXTRA_QUESTION = "question";
     public static final String EXTRA_ID = "questionID";
+    public static final String EXTRA_ANSWERS = "num_of_answers";
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     private RecyclerView mRecyclerView;

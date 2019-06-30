@@ -28,6 +28,7 @@ import static com.example.acculynxchallenge.PointsModel.deductions;
 import static com.example.acculynxchallenge.PointsModel.earned;
 import static com.example.acculynxchallenge.PointsModel.mAnswered;
 import static com.example.acculynxchallenge.PointsModel.points;
+import static com.example.acculynxchallenge.PointsModel.total_answers;
 import static com.example.acculynxchallenge.PointsModel.tries;
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_ID;
 import static com.example.acculynxchallenge.QuestionActivity.EXTRA_QUESTION;
@@ -46,6 +47,7 @@ public class AnswersActivity extends AppCompatActivity
 
     /**
      * Called when loading up the AnswersActivity layout. Initializes extra intents
+     *
      * @param savedInstanceState instance used to create the AnswersActivity
      */
     @Override
@@ -65,6 +67,7 @@ public class AnswersActivity extends AppCompatActivity
     /**
      * Creates Retrofit object to trace through StackExchange API JSON, calls method to read
      * Calls method to read the parsed JSON and create model objects for each
+     *
      * @param quest_id question id whose answers will be parsed
      */
     private void getRetrofit(int quest_id) {
@@ -104,6 +107,7 @@ public class AnswersActivity extends AppCompatActivity
 
     /**
      * Parses through JSON find the value that belongs to the tag
+     *
      * @param response response received from using API
      */
     private void readAnswers(String response) {
@@ -118,6 +122,7 @@ public class AnswersActivity extends AppCompatActivity
                 model.setIs_accepted(jObj.getBoolean("is_accepted"));
                 model.setScore(jObj.getInt("score"));
                 model.setQuestion_id(jObj.getInt("question_id"));
+                total_answers++;
                 mList.add(model);
             }
 
@@ -135,6 +140,7 @@ public class AnswersActivity extends AppCompatActivity
     /**
      * Overrides from AnswersAdapter, adds points to the user score if correct answer is
      * selected. Deducts points if wrong answer is selected
+     *
      * @param position location of the card that is clicked
      */
     @Override
@@ -149,34 +155,46 @@ public class AnswersActivity extends AppCompatActivity
             if (clicked_answer.getIs_accepted()) {
                 tries++;
                 earned += clicked_score;
-                // Feeds true into alertCreate to create appropriate AlertDialog
-                alertCreate(true);
-                // Adds question to answered to prevent duplicate clicks
-                mAnswered.add(question_id);
-                deductions = 0;
-                tries = 0;
+                endAnswering(question_id, "correct");
             } // end if
             // Else runs if answer is not accepted
             else {
-                if (checkList(ans_id)) {
+                tries++;
+                if (tries == total_answers) {
+                    earned += deductions; // Re-apply points initially subtracted from score
+                    endAnswering(question_id, "uh oh"); // Feeds uh-oh parameters
+                } else if (checkList(ans_id)) {
                     // Adds answer to answered to prevent duplicate clicks
                     mAnswered.add(ans_id);
-                    tries++;
-                    deductions += clicked_score;
-                    earned -= deductions;
+                    deductions += clicked_score; // Increases total amount of points lost
+                    earned -= clicked_score; // Subtract score from total amount of points
                     // Feeds false into alertCreate to create appropriate AlertDialog
-                    alertCreate(false);
+                    alertCreate("incorrect");
                 } else {
-                    makeToast("You have selected this answer already");
+                    makeToast("You selected this answer already");
                 }
             }
         } else {
-            makeToast("You have answered this question already!");
+            makeToast("You answered this question already!");
         }
     }
 
     /**
+     * Called if correct answer, or and uh oh is encountered
+     * @param question_id question to be added to the list of answered questions
+     * @param result determines if correct or uh oh
+     */
+    public void endAnswering(int question_id, String result) {
+        alertCreate(result); // Feeds true into alertCreate to create appropriate AlertDialog
+        mAnswered.add(question_id); // Adds question to answered to prevent duplicate clicks
+        deductions = 0; // Resets deductions back to start
+        tries = 0; // Resets tries back to start
+        total_answers = 0; // Resets total_answers back to 0
+    }
+
+    /**
      * Pops up a toast if answer was select already or questions was already answered
+     *
      * @param message info to display corresponding to the question/answer selected
      */
     public void makeToast(String message) {
@@ -187,6 +205,7 @@ public class AnswersActivity extends AppCompatActivity
 
     /**
      * Checker to see if answer was already selected
+     *
      * @param pID id of the answer
      * @return true or false if answer was selected already or not
      */
@@ -200,42 +219,49 @@ public class AnswersActivity extends AppCompatActivity
 
     /**
      * Creates the alert after clicking on one of the answers
-     * @param correct boolean to hold if correct answer was selected or not
+     *
+     * @param correct string to hold if correct answer was selected or not
      */
-    public void alertCreate(Boolean correct) {
+    public void alertCreate(String correct) {
         AlertDialog.Builder builder = new AlertDialog.Builder(AnswersActivity.this);
         builder.setCancelable(true);
-        if (correct) {
-            points += earned;
-            builder.setTitle("Correct!");
-            builder.setMessage("It took you " + tries
+        // If statement checks if the correct answer was found
+        if (correct.equals("correct")) {
+            points += earned; // Add earned points to user's point stockpile
+            alertExit(builder, "Correct!", "It took you " + tries
                     + " attempt(s)!\nYou received: " + earned + " points\nNew score: " +
-                    points);
-            alertExit(builder);
+                    points); //
+        } else if (correct.equals("incorrect")) {
+            alertExit(builder, "Incorrect",
+                    deductions + " points deducted from score");
         } else {
-            builder.setTitle("Incorrect!");
-            builder.setMessage(deductions + " points deducted from  points\n");
-            alertExit(builder);
+            alertExit(builder, "Uh Oh!",
+                    "Looks like the question has an accepted answer, " +
+                            "but none of them are the right answer!\n" + deductions +
+                            " points given back. \n Score: " + points);
         }
     }
 
     /**
      * Method to respond to the clicks in the alert dialog
+     *
      * @param aBuilder alert dialog present in the AnswersActivity
      */
-    public void alertExit(AlertDialog.Builder aBuilder) {
+    public void alertExit(AlertDialog.Builder aBuilder, String pTitle, String pMessage) {
+        aBuilder.setTitle(pTitle); // Title of AlertDialog
+        aBuilder.setMessage(pMessage); // Message displayed below title of AlertDialog
         aBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
             }
         });
-        aBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        aBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
             }
         });
-        aBuilder.show();
+        aBuilder.show(); // Pop-up the AlertDialog
     }
 }
