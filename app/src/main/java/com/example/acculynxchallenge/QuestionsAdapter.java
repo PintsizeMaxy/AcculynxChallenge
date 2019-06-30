@@ -71,8 +71,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final QuestionsHolder qHolder = (QuestionsHolder) viewHolder;
         mCurrent = mData.get(position);
-        qHolder.questions.setText(mCurrent.getTitle());
-        qHolder.num_of_answers.setText(mCurrent.getNum_of_answers());
+        String id = "Question ID: " + mCurrent.getQuestion_id();
+        qHolder.questions.setText(mCurrent.getTitle()); // Sets the title TextView
+        qHolder.num_of_answers.setText(mCurrent.getNum_of_answers()); // Sets number of answers
+        qHolder.question_id.setText(id);
     }
 
     /**
@@ -91,7 +93,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class QuestionsHolder extends RecyclerView.ViewHolder {
         TextView questions; // Question title to display
         TextView num_of_answers; // Number of answers to display
-
+        TextView question_id; // Question id to display in TextView
         /**
          * Creates the cards and displays them
          * @param view where to show the items
@@ -100,6 +102,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(view);
             questions = (TextView) view.findViewById(R.id.questionDisplay);
             num_of_answers = (TextView) view.findViewById(R.id.numOfAnswers);
+            question_id = (TextView) view.findViewById(R.id.questionID);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,7 +110,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if(mListener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            mListener.onItemClick(position);
+                            mListener.onItemClick(position); // Reacts if item is clicked
                         }
                     }
                 }

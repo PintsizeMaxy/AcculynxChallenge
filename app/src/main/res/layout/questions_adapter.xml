@@ -34,6 +34,16 @@
                 android:layout_below="@+id/questionDisplay"
                 android:textColor="#000" />
 
+            <TextView
+                android:id="@+id/questionID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/numOfAnswers"
+                android:layout_below="@+id/questionDisplay"
+                android:paddingStart="140dp"
+                android:paddingEnd="0dp"
+                android:textColor="#000"/>
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
