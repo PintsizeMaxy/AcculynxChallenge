@@ -159,11 +159,11 @@ public class AnswersActivity extends AppCompatActivity
             } // end if
             // Else runs if answer is not accepted
             else {
-                tries++;
                 if (tries == total_answers) {
                     earned += deductions; // Re-apply points initially subtracted from score
                     endAnswering(question_id, "uh oh"); // Feeds uh-oh parameters
                 } else if (checkList(ans_id)) {
+                    tries++;
                     // Adds answer to answered to prevent duplicate clicks
                     mAnswered.add(ans_id);
                     deductions += clicked_score; // Increases total amount of points lost
@@ -188,6 +188,7 @@ public class AnswersActivity extends AppCompatActivity
         alertCreate(result); // Feeds true into alertCreate to create appropriate AlertDialog
         mAnswered.add(question_id); // Adds question to answered to prevent duplicate clicks
         deductions = 0; // Resets deductions back to start
+        earned = 0; // Resets earned back to start
         tries = 0; // Resets tries back to start
         total_answers = 0; // Resets total_answers back to 0
     }
