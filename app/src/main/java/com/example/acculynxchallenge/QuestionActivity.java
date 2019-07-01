@@ -40,6 +40,8 @@ public class QuestionActivity extends AppCompatActivity
     public static final String EXTRA_ID = "questionID";
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
+    ArrayList<QuestionModel> filteredList;
+
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mAdapter;
 
@@ -78,7 +80,7 @@ public class QuestionActivity extends AppCompatActivity
     }
 
     private void filter(String text){
-        ArrayList<QuestionModel> filteredList = new ArrayList<>();
+        filteredList = new ArrayList<>();
 
         for (QuestionModel item : modelArrayList) {
             // if element satisfied if element contains substring
@@ -89,6 +91,7 @@ public class QuestionActivity extends AppCompatActivity
         }
 
         mAdapter.filterList(filteredList);
+
     }
 
     /**
@@ -152,6 +155,7 @@ public class QuestionActivity extends AppCompatActivity
             mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
             mAdapter = new QuestionsAdapter(QuestionActivity.this, modelArrayList);
             mRecyclerView.setAdapter(mAdapter);
+            filteredList = modelArrayList;
             mAdapter.setOnItemClickListener(QuestionActivity.this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         } catch (JSONException e) {
@@ -168,7 +172,7 @@ public class QuestionActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position){
         Intent question_detail = new Intent(this, AnswersActivity.class);
-        QuestionModel clicked_item = modelArrayList.get(position);
+        QuestionModel clicked_item = filteredList.get(position);
 
         question_detail.putExtra(EXTRA_QUESTION, clicked_item.getTitle());
         question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
