@@ -4,9 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +53,44 @@ public class QuestionActivity extends AppCompatActivity
         setContentView(R.layout.question_recycler);
 
         getRetrofit();
+        createSearch();
     }
+
+    private void createSearch(){
+        EditText editText = findViewById(R.id.edittext);
+        editText.setSelected(false);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+    }
+
+    private void filter(String text){
+        ArrayList<QuestionModel> filteredList = new ArrayList<>();
+
+        for (QuestionModel item : modelArrayList) {
+            // if element satisfied if element contains substring
+            if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                // Add Model to filtered list
+                filteredList.add(item);
+            }
+        }
+
+        mAdapter.filterList(filteredList);
+    }
+
     /**
      * Creates Retrofit object to trace through StackExchange API JSON, calls method to read
      * Calls method to read the parsed JSON and create model objects for each

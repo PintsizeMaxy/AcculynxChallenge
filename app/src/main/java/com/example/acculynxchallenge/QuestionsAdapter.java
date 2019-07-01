@@ -86,6 +86,11 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mData.size();
     }
 
+    public void filterList(ArrayList<QuestionModel> filteredList) {
+        mData = filteredList;
+        notifyDataSetChanged();
+    }
+
     /**
      * Custom ViewHolder to hold onClickListener for items in recycler view as well as display
      * text in appropriate spot in the CardView

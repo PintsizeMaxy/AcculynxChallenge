@@ -15,4 +15,5 @@
     <string name="no_return">Got nothing back</string>
     <string name="respond">onResponse</string>
     <string name="succeed">isSuccessful()</string>
+    <string name="search">Search...</string>
 </resources>
