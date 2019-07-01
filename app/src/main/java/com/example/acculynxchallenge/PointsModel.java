@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class PointsModel extends Activity {
 
-    protected static int points; // Total points earned through whole application
+    protected static int points = 0; // Total points earned through whole application
     protected static int deductions; // Points subtracted from earned from wrong guesses
     protected static int tries; // Amount of clicks it took to click the right answer
     protected static int earned; // Earned points from successfully answering

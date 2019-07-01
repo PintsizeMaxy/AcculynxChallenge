@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import static com.example.acculynxchallenge.PointsModel.points;
+
 /**
  * Adapter used to display all JSON information related to Questions onto the screen
  */
@@ -72,6 +74,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final QuestionsHolder qHolder = (QuestionsHolder) viewHolder;
         mCurrent = mData.get(position);
         String id = "Question ID: " + mCurrent.getQuestion_id();
+        String score = "Your Score: " + points;
         qHolder.questions.setText(mCurrent.getTitle()); // Sets the title TextView
         qHolder.num_of_answers.setText(mCurrent.getNum_of_answers()); // Sets number of answers
         qHolder.question_id.setText(id);
@@ -103,6 +106,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView questions; // Question title to display
         TextView num_of_answers; // Number of answers to display
         TextView question_id; // Question id to display in TextView
+
         /**
          * Creates the cards and displays them
          * @param view where to show the items
