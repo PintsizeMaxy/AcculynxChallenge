@@ -61,9 +61,13 @@ public class QuestionActivity extends AppCompatActivity
         createSearch();
     }
 
+    /**
+     * Loads in TextView to act as the search bar. Finds and loads anything in the title that
+     * has the provided substring
+     */
     private void createSearch(){
         EditText editText = findViewById(R.id.edittext);
-        editText.setSelected(false);
+        editText.setSelected(false); // Allows for click listener to adjust its item positions
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -151,6 +155,7 @@ public class QuestionActivity extends AppCompatActivity
             for (int i = 0; i < jsonArray.length(); i++) {
                 QuestionModel model = new QuestionModel();
                 JSONObject jObj = jsonArray.getJSONObject(i);
+                // If statement traces through each item in JSON finding each appropriate tag
                 if (jObj.has("accepted_answer_id")
                         && jObj.optInt("answer_count") > 1) {
                     model.setNum_of_answers(jObj.getInt("answer_count"));
@@ -161,10 +166,10 @@ public class QuestionActivity extends AppCompatActivity
                 }
             }
             mSearched = false; // Reset search
-            mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
+            mRecyclerView = (RecyclerView) findViewById(R.id.questionList); // Load in RecyclerView
             mAdapter = new QuestionsAdapter(QuestionActivity.this, modelArrayList);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.setOnItemClickListener(QuestionActivity.this);
+            mRecyclerView.setAdapter(mAdapter); // Link together RecyclerView with adapter
+            mAdapter.setOnItemClickListener(QuestionActivity.this); // Use Adapter's custom listener
             mRecyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -186,9 +191,10 @@ public class QuestionActivity extends AppCompatActivity
             clicked_item = filteredList.get(position);
         }
 
+        // Allows AnswersActivity to use these two extra resources
         question_detail.putExtra(EXTRA_QUESTION, clicked_item.getTitle());
         question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
-        startActivity(question_detail);
+        startActivity(question_detail); // Load activity
     }
 
 }
