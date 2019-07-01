@@ -86,6 +86,10 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mData.size();
     }
 
+    /**
+     * Displays new information
+     * @param filteredList questions to be displayed to user
+     */
     public void filterList(ArrayList<QuestionModel> filteredList) {
         mData = filteredList;
         notifyDataSetChanged();

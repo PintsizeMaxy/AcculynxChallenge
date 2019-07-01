@@ -41,6 +41,7 @@ public class QuestionActivity extends AppCompatActivity
 
     ArrayList<QuestionModel> modelArrayList = new ArrayList<>();
     ArrayList<QuestionModel> filteredList;
+    private boolean mSearched;
 
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mAdapter;
@@ -79,9 +80,14 @@ public class QuestionActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Filters the questions shown as you type into search bar
+     * @param text string to match against questions
+     */
     private void filter(String text){
-        filteredList = new ArrayList<>();
-
+        filteredList = new ArrayList<>(); // Resets ArrayList of filtered items
+        mSearched = true; // Changes positions of cards
+        // For each item in the modelArrayList, check to see if it should be displayed
         for (QuestionModel item : modelArrayList) {
             // if element satisfied if element contains substring
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
@@ -152,10 +158,10 @@ public class QuestionActivity extends AppCompatActivity
                     modelArrayList.add(model);
                 }
             }
+            mSearched = false; // Reset search
             mRecyclerView = (RecyclerView) findViewById(R.id.questionList);
             mAdapter = new QuestionsAdapter(QuestionActivity.this, modelArrayList);
             mRecyclerView.setAdapter(mAdapter);
-            filteredList = modelArrayList;
             mAdapter.setOnItemClickListener(QuestionActivity.this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(QuestionActivity.this));
         } catch (JSONException e) {
@@ -172,7 +178,11 @@ public class QuestionActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position){
         Intent question_detail = new Intent(this, AnswersActivity.class);
-        QuestionModel clicked_item = filteredList.get(position);
+        QuestionModel clicked_item = modelArrayList.get(position);
+        // If search parameter was provided, use filtered list
+        if(mSearched){
+            clicked_item = filteredList.get(position);
+        }
 
         question_detail.putExtra(EXTRA_QUESTION, clicked_item.getTitle());
         question_detail.putExtra(EXTRA_ID, clicked_item.getQuestion_id());
